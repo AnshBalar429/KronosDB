@@ -20,3 +20,8 @@ std::optional<std::string> KeyValueStore::get(const std::string& key) {
         return std::nullopt; // empty optional
     }
 }
+
+void KeyValueStore::del(const std::string& key) {
+    data_map.erase(key);
+    std::cout << "DELETE: " << key << std::endl;
+}
