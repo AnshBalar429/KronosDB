@@ -2,6 +2,7 @@
 #define KEY_VALUE_STORE_H
 #include <string>
 #include <unordered_map>
+#include <optional>
 
 class KeyValueStore {
 private:
@@ -10,6 +11,12 @@ private:
 
 public:
     KeyValueStore();
+
+    void set(const std::string& key, const std::string& value);
+
+    std::optional<std::string> get(const std::string& key);
+
+    void del(const std::string& key);
 };
 
 #endif // KEY_VALUE_STORE_H
