@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "KeyValueStore.h"
+
 int main() {
-   std::cout << "Init" << '\n';
+   KeyValueStore store;
+   std::cout << "Key value store created successfully" << '\n';
 }
