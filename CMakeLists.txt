@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(
         Multithreaded_DB
         src/main.cpp
-#        src/KeyValueStore.h
-#        src/KeyValueStore.cpp
+        src/KeyValueStore.h
+        src/KeyValueStore.cpp
 )
 
 find_package(Threads REQUIRED)
