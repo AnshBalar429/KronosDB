@@ -11,6 +11,10 @@ private:
     std::unordered_map<std::string, std::string> data_map;
 
     mutable std::shared_mutex mtx;
+    // while using locks in a function the state of lock changes so we can not use locks
+    // in a const function because the data can not be changed in const functions.
+    // so we should make mutex mutable so it can be used inside const function.
+    // Here const function is KeyValueStore::get()
 
 public:
     KeyValueStore();
