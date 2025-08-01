@@ -48,8 +48,9 @@ void reader_task(std::shared_ptr<KeyValueStore> store, int client_id) {
 
 
 int main() {
-    const int NUM_WRITERS = 2;
-    const int NUM_READERS = 10;
+    // stress test
+    const int NUM_WRITERS = 10;
+    const int NUM_READERS = 50;
 
     auto store = std::make_shared<KeyValueStore>();
 
