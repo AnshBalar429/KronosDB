@@ -72,5 +72,12 @@ int main() {
 
     std::cout << "\n--- Simulation Finished ---" << std::endl;
 
+    // Consistency Check
+    int NUM_KEY = 10;
+    for (int i = 1; i <= NUM_KEY; i++) {
+        std::string key = "key" + std::to_string(i);
+        store->get(key);
+    }
+
     return 0;
 }
