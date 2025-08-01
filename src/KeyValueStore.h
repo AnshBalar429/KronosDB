@@ -3,18 +3,21 @@
 #include <string>
 #include <unordered_map>
 #include <optional>
+#include <shared_mutex>
 
 class KeyValueStore {
 private:
     // The main underlying data structure to store the key-value pair
     std::unordered_map<std::string, std::string> data_map;
 
+    mutable std::shared_mutex mtx;
+
 public:
     KeyValueStore();
 
     void set(const std::string& key, const std::string& value);
 
-    std::optional<std::string> get(const std::string& key);
+    std::optional<std::string> get(const std::string& key) const;
 
     void del(const std::string& key);
 };
