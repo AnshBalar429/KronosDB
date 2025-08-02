@@ -16,6 +16,8 @@ add_executable(
         src/KeyValueStore.cpp
         src/Server.cpp
         src/Server.h
+        src/Session.h
+        src/Session.cpp
 )
 
 #Linking threads library to executable
