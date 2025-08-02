@@ -21,5 +21,5 @@ add_executable(
 )
 
 #Linking threads library to executable
-target_link_libraries(Multithreaded_DB PRIVATE Threads::Threads ${Boost_LIBRARIES} ws2_32
+target_link_libraries(Multithreaded_DB PRIVATE Threads::Threads ${Boost_LIBRARIES} ws2_32 mswsock
 )
