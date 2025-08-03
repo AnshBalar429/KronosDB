@@ -10,6 +10,9 @@ public:
     void run();
 
 private:
+    // Starts an asynchronous accept operation.
+    void do_accept();
+
     boost::asio::io_context io_context_;
 
     boost::asio::ip::tcp::acceptor acceptor_;
