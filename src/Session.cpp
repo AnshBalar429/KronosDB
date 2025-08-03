@@ -54,6 +54,8 @@ std::string Session::process_command(const std::string& line) {
         store_->del(key);
         return "DELETED\n";
     }
+
+    return "ERROR: Unknown command '" + command + "'\n";
 }
 
 
@@ -63,7 +65,14 @@ void Session::do_read() {
     boost::asio::async_read_until(socket_,buffer_,'\n',
         [this, self](boost::system::error_code ec, std::size_t length) {
             if (!ec) {
-                do_write(length);
+                std::istream is(&buffer_);
+                std::string line;
+                std::getline(is, line);
+
+                std::string response = process_command(line);
+
+                do_write(response);
+
             } else if (ec == boost::asio::error::eof) {
                 std::cout << "Session end by peer." << std::endl;
             } else {
@@ -72,7 +81,7 @@ void Session::do_read() {
         });
 }
 
-void Session::do_write(std::size_t length) {
+void Session::do_write(const std::string& response) {
     auto self(shared_from_this());
 
     boost::asio::async_write(socket_, buffer_.data(),
