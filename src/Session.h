@@ -4,18 +4,23 @@
 #include <boost/asio.hpp>
 #include <memory>
 
+#include "KeyValueStore.h"
+
 class Session : public std::enable_shared_from_this<Session> {
 public:
-    Session(boost::asio::ip::tcp::socket socket);
+    Session(boost::asio::ip::tcp::socket socket, std::shared_ptr<KeyValueStore> store);
 
     void start();
 
 private:
     void do_read();
-
     void do_write(std::size_t length);
+
+    std::string process_command(const std::string& line);
+
     boost::asio::ip::tcp::socket socket_;
     boost::asio::streambuf buffer_;
+    std::shared_ptr<KeyValueStore> store_;
 };
 
 
