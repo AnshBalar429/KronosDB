@@ -84,11 +84,9 @@ void Session::do_read() {
 void Session::do_write(const std::string& response) {
     auto self(shared_from_this());
 
-    boost::asio::async_write(socket_, buffer_.data(),
+    boost::asio::async_write(socket_, boost::asio::buffer(response),
         [this, self](boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec) {
-                // Data has been written, now wait for the next message.
-                buffer_.consume(buffer_.size()); // Clear the buffer
                 do_read();
             } else {
                 std::cerr << "Write Error: " << ec.message() << std::endl;
