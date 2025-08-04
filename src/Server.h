@@ -3,9 +3,11 @@
 
 #include <boost/asio.hpp>
 
+#include "KeyValueStore.h"
+
 class Server {
 public:
-    Server(unsigned short port);
+    Server(unsigned short port, std::shared_ptr<KeyValueStore>& store);
 
     void run();
 
@@ -14,8 +16,8 @@ private:
     void do_accept();
 
     boost::asio::io_context io_context_;
-
     boost::asio::ip::tcp::acceptor acceptor_;
+    std::shared_ptr<KeyValueStore> store_;
 };
 
 #endif // SERVER_H
