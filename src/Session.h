@@ -14,7 +14,7 @@ public:
 
 private:
     void do_read();
-    void do_write(std::size_t length);
+    void do_write(const std::string& response);
 
     std::string process_command(const std::string& line);
 

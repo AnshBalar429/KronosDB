@@ -8,7 +8,7 @@ Session::Session(boost::asio::ip::tcp::socket socket, std::shared_ptr<KeyValueSt
     : socket_(std::move(socket)) , store_(std::move(store)) {}
 
 void Session::start() {
-    std::cout << "New session started from" << socket_.remote_endpoint() << std::endl;
+    std::cout << "New session started from " << socket_.remote_endpoint() << std::endl;
     do_read();
 }
 
