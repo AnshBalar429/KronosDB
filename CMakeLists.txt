@@ -18,6 +18,8 @@ add_executable(
         src/Server.h
         src/Session.h
         src/Session.cpp
+        src/Persistence.h
+        src/Persistence.cpp
 )
 
 #Linking threads library to executable
