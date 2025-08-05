@@ -108,8 +108,8 @@ If you prefer to build the project yourself:
 
 ```bash
 # 1. Clone the repository
-git clone <your-repo-url>
-cd <repo-name>
+git clone https://github.com/AnshBalar429/KronosDB.git
+cd KronosDB
 
 # 2. Configure the project with CMake
 cmake -B build
