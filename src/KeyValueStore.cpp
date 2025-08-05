@@ -30,8 +30,15 @@ void KeyValueStore::load_from_aof(const std::string& filename) {
 }
 
 
+std::shared_mutex& KeyValueStore::get_lock_for_key(const std::string& key) const {
+    const auto index = std::hash<std::string >{}(key) % NUM_LOCKS;
+    // std::cout << index << '\n';
+    return locks_[index];
+}
 
-KeyValueStore::KeyValueStore(const std::string& aof_filename) {
+
+
+KeyValueStore::KeyValueStore(const std::string& aof_filename) : locks_(NUM_LOCKS) {
     // Load data from the file first. During this phase, persistence_ is null,
     // so the set/del calls inside load_from_aof won't write back to the file
     load_from_aof(aof_filename);
@@ -44,7 +51,10 @@ KeyValueStore::KeyValueStore(const std::string& aof_filename) {
 
 void KeyValueStore::set(const std::string& key, const std::string& value) {
     // acquire the lock
-    std::unique_lock<std::shared_mutex> lock(mtx);
+    // std::unique_lock<std::shared_mutex> lock(mtx);
+
+    std::unique_lock<std::shared_mutex> lock(get_lock_for_key(key));
+
 
     // if key exists it reassigns or insert
     data_map.insert_or_assign(key, value);
@@ -57,8 +67,8 @@ void KeyValueStore::set(const std::string& key, const std::string& value) {
 }
 
 std::optional<std::string> KeyValueStore::get(const std::string& key) const {
-    std::shared_lock<std::shared_mutex> lock(mtx);
-
+    // std::shared_lock<std::shared_mutex> lock(mtx);
+    std::unique_lock<std::shared_mutex> lock(get_lock_for_key(key));
     auto it = data_map.find(key);
 
     if (it != data_map.end()) {
@@ -71,7 +81,8 @@ std::optional<std::string> KeyValueStore::get(const std::string& key) const {
 }
 
 void KeyValueStore::del(const std::string& key) {
-    std::unique_lock<std::shared_mutex> lock(mtx);
+    // std::unique_lock<std::shared_mutex> lock(mtx);
+    std::unique_lock<std::shared_mutex> lock(get_lock_for_key(key));
 
     data_map.erase(key);
     std::cout << "DELETE: " << key << std::endl;
