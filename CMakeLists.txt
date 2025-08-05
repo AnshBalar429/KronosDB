@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.16)
 project(Multithreaded_DB)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -22,6 +22,15 @@ add_executable(
         src/Persistence.cpp
 )
 
-#Linking threads library to executable
-target_link_libraries(Multithreaded_DB PRIVATE Threads::Threads ${Boost_LIBRARIES} ws2_32 mswsock
+# Link all required libraries to the executable
+target_link_libraries(Multithreaded_DB PRIVATE
+        Boost::system
+        Boost::thread
+        Threads::Threads
 )
+
+# Add Windows-specific libraries only when compiling on Windows
+if(WIN32)
+    # Corrected the executable name here to match
+    target_link_libraries(Multithreaded_DB PRIVATE ws2_32 mswsock)
+endif()
