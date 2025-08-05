@@ -5,7 +5,7 @@
 #include <optional>
 #include <shared_mutex>
 #include <memory>
-
+#include <vector>
 #include "Persistence.h"
 
 class KeyValueStore {
@@ -13,7 +13,7 @@ private:
     // The main underlying data structure to store the key-value pair
     std::unordered_map<std::string, std::string> data_map;
 
-    mutable std::shared_mutex mtx;
+    // mutable std::shared_mutex mtx;
     // while using locks in a function the state of lock changes so we can not use locks
     // in a const function because the data can not be changed in const functions.
     // so we should make mutex mutable so it can be used inside const function.
@@ -22,6 +22,11 @@ private:
     std::unique_ptr<Persistence> persistence_;
 
     void load_from_aof(const std::string& filename);
+
+    // Lock striping
+    std::shared_mutex& get_lock_for_key(const std::string& key) const;
+    static const size_t NUM_LOCKS = 16;
+    mutable std::vector<std::shared_mutex> locks_;
 
 public:
     KeyValueStore(const std::string& aof_filename);
