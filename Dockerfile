@@ -14,4 +14,4 @@ RUN cmake -B build && cmake --build build
 
 EXPOSE 12345
 
-CMD ["./build/Multithreaded_DB"]
+CMD ["./build/KronosDB"]
