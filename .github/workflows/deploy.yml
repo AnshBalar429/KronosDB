@@ -24,7 +24,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: anshbalar429/kronosdb:${{ github.sha }}
+          tags: |
+            anshbalar429/kronosdb:latest
+            anshbalar429/kronosdb:${{ github.sha }}
 
       - name: Verify Pushed Image
-        run: docker pull anshbalar429/kronosdb:${{ github.sha }}
+        run: docker pull anshbalar429/kronosdb:latest
